@@ -7,8 +7,17 @@
 using std::vector;
 
 void EvenOdd(vector<int>* A_ptr) {
-  // TODO - you fill in here.
-  return;
+    vector<int>& A = *A_ptr;
+    size_t left = 0;
+    size_t right = A.size() - 1;
+    while (left < right){
+        if (A[left] % 2 == 0){
+            left++;
+        } else {
+            std::swap(A[left], A[right]);
+            right--;
+        }
+    }
 }
 void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
   std::multiset<int> before(begin(A), end(A));
