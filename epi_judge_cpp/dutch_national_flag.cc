@@ -5,27 +5,26 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
+using std::swap;
 enum class Color { kRed, kWhite, kBlue };
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
     vector<Color>& A = *A_ptr;
-    size_t right = A.size() - 1;
-    size_t left = 0;
-    while (left < right){
-        if (A[left] == Color::kRed){
-            left++;
-        } else {
-           std::swap(A[left], A[right]);
-           right--;
-        }
-    }
-    right = A.size() - 1;
-    while (left < right){
-        if (A[left] == Color::kWhite){
-            left++;
-        } else {
-            std::swap(A[left], A[right]);
-            right--;
+    Color pivot = A[pivot_index];
+    /**
+     * bottom A[0 :smaller - 1]
+     *
+     */
+    int smaller = 0, equal = 0, larger = A.size();
+    // Keep iterating as long as there is an unclassified element.
+    while (equal < larger) {
+        // A[equal] is the incoming unclassified element.
+        if (A[equal] < pivot) {
+            swap(A[smaller++], A[equal++]);
+        } else if (A[equal] == pivot) {
+            ++equal;
+        } else {  // A[equal] > pivot.
+            swap(A[equal], A[--larger]);
         }
     }
 }
