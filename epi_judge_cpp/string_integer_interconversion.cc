@@ -5,8 +5,17 @@
 using std::string;
 
 string IntToString(int x) {
-  // TODO - you fill in here.
-  return "0";
+    bool negative = false;
+    if (x < 0){
+        negative = true;
+        x = -x;
+    }
+    string output = "";
+    while (x % 10 > 0){
+       output.append("0", abs(x % 10));
+
+    }
+    return output;
 }
 int StringToInt(const string& s) {
   // TODO - you fill in here.
