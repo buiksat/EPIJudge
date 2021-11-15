@@ -15,7 +15,25 @@ Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 def search_maze(maze: List[List[int]], s: Coordinate,
                 e: Coordinate) -> List[Coordinate]:
     # TODO - you fill in here.
+    visited = [s]
+    path = [s]
+    def neighbors(node):
+        return [Coordinate(node.x + 1, node.y + 1),
+                Coordinate(node.x - 1, node.y + 1),
+                Coordinate(node.x + 1, node.y - 1),
+                Coordinate(node.x - 1, node.y - 1)]
+    while visited:
+        cur = visited.pop()
+        for next in neighbors(cur):
+            if path_element_is_feasible(maze, cur, next):
+                visited.append(next)
+
+
+
+
+
     return []
+
 
 
 def path_element_is_feasible(maze, prev, cur):
