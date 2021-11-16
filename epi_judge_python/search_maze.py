@@ -16,24 +16,32 @@ def search_maze(maze: List[List[int]], s: Coordinate,
                 e: Coordinate) -> List[Coordinate]:
     # TODO - you fill in here.
     visited = [s]
-    path = [s]
+    path = dict()
+
     def neighbors(node):
-        return [Coordinate(node.x + 1, node.y + 1),
-                Coordinate(node.x - 1, node.y + 1),
-                Coordinate(node.x + 1, node.y - 1),
-                Coordinate(node.x - 1, node.y - 1)]
+        return [Coordinate(node.x, node.y + 1),
+                Coordinate(node.x, node.y - 1),
+                Coordinate(node.x + 1, node.y),
+                Coordinate(node.x - 1, node.y)]
+
+    def path_generator(path, s, e):
+        output = []
+        current = e
+        while current != s:
+            output.append(current)
+            current = path[current]
+        output.append(s)
+        return output[::-1]
+
     while visited:
         cur = visited.pop()
-        for next in neighbors(cur):
-            if path_element_is_feasible(maze, cur, next):
-                visited.append(next)
-
-
-
-
-
+        for neighbour in neighbors(cur):
+            if path_element_is_feasible(maze, cur, neighbour):
+                visited.append(neighbour)
+                path[neighbour] = cur
+                if neighbour == e:
+                    return path_generator(path, s, e)
     return []
-
 
 
 def path_element_is_feasible(maze, prev, cur):
